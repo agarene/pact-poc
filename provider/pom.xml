@@ -106,7 +106,9 @@
 				<artifactId>pact-jvm-provider-maven</artifactId>
 				<version>${pact-jvm-provider-maven-plugin.version}</version>
 				<configuration>
+					<!-- packt broker URL-->
 					<pactBrokerUrl>http://192.168.1.3:9000</pactBrokerUrl>
+					<!-- service providers which are in pact files-->
 					<serviceProviders>
 						<serviceProvider>
 							<name>get-all-orders-provider</name>
@@ -122,7 +124,6 @@
 							<stateChangeUsesBody>false</stateChangeUsesBody>
 						</serviceProvider>
 					</serviceProviders>
-					<pactBrokerUrl>http://192.168.1.3:9000</pactBrokerUrl>
 					<tags>1</tags>
 					<pacticipantVersion>1</pacticipantVersion>
 					<projectVersion>1</projectVersion>
