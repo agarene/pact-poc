@@ -90,6 +90,14 @@
 					<!-- pact files version -->
 					<projectVersion>1</projectVersion>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>publish</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
