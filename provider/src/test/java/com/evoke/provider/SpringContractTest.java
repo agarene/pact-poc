@@ -40,8 +40,7 @@ public class SpringContractTest {
         public void getAllOrdersStubGenerator() throws Exception {
                 this.mockMvc.perform(MockMvcRequestBuilders.get("/orders")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-                        .andExpect(status().isOk())
-                        .andExpect(content().string("GET LOST"));
+                        .andExpect(status().isOk());
         }
 }
 
