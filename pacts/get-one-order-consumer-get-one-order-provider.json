@@ -10,7 +10,7 @@
       "description": "get one order",
       "request": {
         "method": "GET",
-        "path": "/orders/getOne/c8dff47d-2abf-b4fc-21fa-b4c73af5bfd2",
+        "path": "/orders/getOne/9fbd600e-fa5c-effd-7d0c-9bd29ac02de8",
         "matchingRules": {
           "path": {
             "matchers": [
@@ -36,7 +36,7 @@
               "cost": 0.12,
               "quantity": 0,
               "productId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
-              "productName": "辍?斒?덫響ᄛந"
+              "productName": "??"
             }
           ]
         },
@@ -59,7 +59,16 @@
               ],
               "combine": "AND"
             },
-            "$.products[0].productId": {
+            "$.products": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[*].productId": {
               "matchers": [
                 {
                   "match": "regex",
@@ -68,7 +77,15 @@
               ],
               "combine": "AND"
             },
-            "$.products[0].cost": {
+            "$.products[*].cost": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[*].quantity": {
               "matchers": [
                 {
                   "match": "number"
@@ -76,15 +93,7 @@
               ],
               "combine": "AND"
             },
-            "$.products[0].quantity": {
-              "matchers": [
-                {
-                  "match": "number"
-                }
-              ],
-              "combine": "AND"
-            },
-            "$.products[0].productName": {
+            "$.products[*].productName": {
               "matchers": [
                 {
                   "match": "regex",
@@ -111,10 +120,10 @@
             "$.orderId": {
               "type": "Uuid"
             },
-            "$[0].productId": {
+            "$.products[*].productId": {
               "type": "Uuid"
             },
-            "$[0].productName": {
+            "$.products[*].productName": {
               "type": "Regex",
               "regex": ".*"
             }

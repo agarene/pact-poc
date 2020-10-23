@@ -130,8 +130,8 @@
 							<stateChangeUsesBody>false</stateChangeUsesBody>
 						</serviceProvider>
 					</serviceProviders>
-					<tags>1</tags>
-					<pacticipantVersion>1</pacticipantVersion>
+					<tags>3</tags>
+					<pacticipantVersion>3</pacticipantVersion>
 					<projectVersion>1</projectVersion>
 					<configuration>
 							<pact.verifier.publishResults>true</pact.verifier.publishResults>

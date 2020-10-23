@@ -42,7 +42,7 @@ class ConsumerApplicationTests {
 	public RequestResponsePact getAllOrders(PactDslWithProvider builder){
 		Map<String,String> headers=new HashMap<>();
 		DslPart dslPart = PactDslJsonArray.arrayMinLike(1).uuid("orderId").decimalType("total", 0.12)
-				.array("products").object().uuid("productId").
+				.minArrayLike("products",1).uuid("productId").
 				decimalType("cost", 0.12)
 				.numberType("quantity", 0)
 				.stringMatcher("productName",".*").closeObject().closeArray();
@@ -54,16 +54,11 @@ class ConsumerApplicationTests {
 	@Pact(provider = "get-one-order-provider" ,consumer = "get-one-order-consumer")
 	public RequestResponsePact getOrder(PactDslWithProvider builder){
 		Map<String,String> headers=new HashMap<>();
-		PactDslJsonBody body = new PactDslJsonBody().
-				uuid("orderId").decimalType("total",0.12).
-				object("products", newJsonArray((productsArray) -> {
-					productsArray.object((product) -> {
-						product.uuid("productId")
-								.numberType("cost", 0.12)
-								.numberType("quantity", 0)
-								.stringMatcher("productName",".*");
-					});
-				}).build());
+		DslPart body = new PactDslJsonBody().uuid("orderId").decimalType("total", 0.12)
+				.minArrayLike("products",1).uuid("productId").
+						decimalType("cost", 0.12)
+				.numberType("quantity", 0)
+				.stringMatcher("productName",".*").closeObject();
 		return builder.given("get single order").uponReceiving("get one order")
 				.matchPath("/orders/getOne/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}").method("GET")
 				.headers(headers).willRespondWith().status(200)
