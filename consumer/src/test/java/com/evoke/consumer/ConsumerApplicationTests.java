@@ -9,7 +9,6 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
-import io.pactfoundation.consumer.dsl.LambdaDslObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.util.EntityUtils;
@@ -26,6 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonArray;
+import static org.junit.Assert.assertEquals;
 
 @ExtendWith(PactConsumerTestExt.class)
 @SpringBootTest()
@@ -36,26 +36,19 @@ class ConsumerApplicationTests {
 		System.setProperty("pact.rootDir","../pacts");
 	}
 
-	private static void getOrderStub(LambdaDslObject o) {
-		o.uuid("orderId").decimalType("total", 0.12)
-				.array("products", (productsArray) -> {
-					productsArray.object((product) -> {
-						product.uuid("productId")
-								.decimalType("cost", 0.12)
-								.numberType("quantity", 0)
-								.stringMatcher("productName",".*");
-					});
-				});
-	}
+
 
 	@Pact(provider = "get-all-orders-provider" ,consumer = "get-all-orders-consumer")
 	public RequestResponsePact getAllOrders(PactDslWithProvider builder){
 		Map<String,String> headers=new HashMap<>();
-		DslPart pactDslJsonBody = newJsonArray((array) -> array.object(ConsumerApplicationTests::getOrderStub))
-				.build();
+		DslPart dslPart = PactDslJsonArray.arrayMinLike(1).uuid("orderId").decimalType("total", 0.12)
+				.array("products").object().uuid("productId").
+				decimalType("cost", 0.12)
+				.numberType("quantity", 0)
+				.stringMatcher("productName",".*").closeObject().closeArray();
 		return builder.given("get all orders").uponReceiving("get all orders")
 				.path("/orders").method("GET").headers(headers).willRespondWith().status(200).
-						body(pactDslJsonBody).toPact();
+						body(dslPart).toPact();
 	}
 
 	@Pact(provider = "get-one-order-provider" ,consumer = "get-one-order-consumer")
@@ -81,9 +74,9 @@ class ConsumerApplicationTests {
 	@PactTestFor(pactMethod = "getAllOrders")
 	public void createAllFooPactTest(MockServer mockServer) throws IOException {
 		String url=mockServer.getUrl() + "/orders";
-		System.out.println(url);
 		HttpResponse httpResponse = getResponse(url);
 		System.out.println(EntityUtils.toString(httpResponse.getEntity()));
+		assertEquals(httpResponse.getStatusLine().getStatusCode(),200);
 
 	}
 
@@ -94,9 +87,9 @@ class ConsumerApplicationTests {
 	@PactTestFor(pactMethod = "getOrder")
 	public void getOneFooProviderTest(MockServer mockServer) throws IOException{
 		String url = mockServer.getUrl() + "/orders/getOne/"+UUID.randomUUID().toString();
-		System.out.println(url);
 		HttpResponse httpResponse = getResponse(url);
-		System.out.println(EntityUtils.toString(httpResponse.getEntity()));
+		assertEquals(httpResponse.getStatusLine().getStatusCode(),200);
+
 	}
 
 }

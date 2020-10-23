@@ -86,10 +86,10 @@
 					<!-- pact file generated directory-->
 					<pactDirectory>../pacts</pactDirectory>
 					<!-- for releases or environment -->
-					<tags>1</tags>
+					<tags>2</tags>
 					<skipPactPublish>false</skipPactPublish>
 					<!-- pact files version -->
-					<projectVersion>1</projectVersion>
+					<projectVersion>2</projectVersion>
 				</configuration>
 				<executions>
 					<execution>

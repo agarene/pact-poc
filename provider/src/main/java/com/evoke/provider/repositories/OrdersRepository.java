@@ -22,7 +22,7 @@ public class OrdersRepository {
 
     private Set<Order> generateStub() {
         orders=new HashSet<>();
-        IntStream.range(0,1).forEach((value -> {
+        IntStream.range(0,20).forEach((value -> {
             Order order=new Order();
             order.setOrderId(UUID.randomUUID());
             order.setTotal(new BigDecimal("0.00"));

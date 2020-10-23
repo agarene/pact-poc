@@ -1,48 +1,39 @@
 {
   "provider": {
-    "name": "get-one-order-provider"
+    "name": "get-all-orders-provider"
   },
   "consumer": {
-    "name": "get-one-order-consumer"
+    "name": "get-all-orders-consumer"
   },
   "interactions": [
     {
-      "description": "get one order",
+      "description": "get all orders",
       "request": {
         "method": "GET",
-        "path": "/orders/getOne/c055f5d6-7bf7-df64-4878-246a2a3a2334",
-        "matchingRules": {
-          "path": {
-            "matchers": [
-              {
-                "match": "regex",
-                "regex": "/orders/getOne/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
-              }
-            ],
-            "combine": "AND"
-          }
-        }
+        "path": "/orders"
       },
       "response": {
         "status": 200,
         "headers": {
           "Content-Type": "application/json; charset=UTF-8"
         },
-        "body": {
-          "total": 0.12,
-          "orderId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
-          "products": [
-            {
-              "cost": 0.12,
-              "quantity": 0,
-              "productId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
-              "productName": "?"
-            }
-          ]
-        },
+        "body": [
+          {
+            "total": 0.12,
+            "orderId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "products": [
+              {
+                "cost": 0.12,
+                "quantity": 0,
+                "productId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+                "productName": "?"
+              }
+            ]
+          }
+        ],
         "matchingRules": {
           "body": {
-            "$.orderId": {
+            "$[0].orderId": {
               "matchers": [
                 {
                   "match": "regex",
@@ -51,7 +42,7 @@
               ],
               "combine": "AND"
             },
-            "$.total": {
+            "$[0].total": {
               "matchers": [
                 {
                   "match": "decimal"
@@ -59,7 +50,7 @@
               ],
               "combine": "AND"
             },
-            "$.products[0].productId": {
+            "$[0].products[0].productId": {
               "matchers": [
                 {
                   "match": "regex",
@@ -68,7 +59,15 @@
               ],
               "combine": "AND"
             },
-            "$.products[0].cost": {
+            "$[0].products[0].cost": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].products[0].quantity": {
               "matchers": [
                 {
                   "match": "number"
@@ -76,15 +75,7 @@
               ],
               "combine": "AND"
             },
-            "$.products[0].quantity": {
-              "matchers": [
-                {
-                  "match": "number"
-                }
-              ],
-              "combine": "AND"
-            },
-            "$.products[0].productName": {
+            "$[0].products[0].productName": {
               "matchers": [
                 {
                   "match": "regex",
@@ -108,13 +99,13 @@
         },
         "generators": {
           "body": {
-            "$.orderId": {
+            "$[0].orderId": {
               "type": "Uuid"
             },
-            "$[0].productId": {
+            "$[0].products[0].productId": {
               "type": "Uuid"
             },
-            "$[0].productName": {
+            "$[0].products[0].productName": {
               "type": "Regex",
               "regex": ".*"
             }
@@ -123,7 +114,7 @@
       },
       "providerStates": [
         {
-          "name": "get single order"
+          "name": "get all orders"
         }
       ]
     }
