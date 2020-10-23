@@ -91,9 +91,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.1</version>
 				<configuration>
 					<useSystemClassLoader>false</useSystemClassLoader>
+					<systemProperties>
+						<property>
+							<name>pact.verifier.publishResults</name>
+							<value>true</value>
+						</property>
+					</systemProperties>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -127,7 +132,11 @@
 					<tags>1</tags>
 					<pacticipantVersion>1</pacticipantVersion>
 					<projectVersion>1</projectVersion>
+					<configuration>
+							<pact.verifier.publishResults>true</pact.verifier.publishResults>
+					</configuration>
 				</configuration>
+
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.cloud</groupId>

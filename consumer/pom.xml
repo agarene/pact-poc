@@ -87,6 +87,7 @@
 					<pactDirectory>../pacts</pactDirectory>
 					<!-- for releases or environment -->
 					<tags>1</tags>
+					<skipPactPublish>false</skipPactPublish>
 					<!-- pact files version -->
 					<projectVersion>1</projectVersion>
 				</configuration>

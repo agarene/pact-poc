@@ -1,0 +1,139 @@
+{
+  "provider": {
+    "name": "get-one-order-provider"
+  },
+  "consumer": {
+    "name": "get-one-order-consumer"
+  },
+  "interactions": [
+    {
+      "description": "get one order",
+      "request": {
+        "method": "GET",
+        "path": "/orders/getOne/5286fdbb-af6b-bf4e-cffc-c07cd1845e55",
+        "matchingRules": {
+          "path": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "/orders/getOne/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+              }
+            ],
+            "combine": "AND"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "body": {
+          "total": 0.12,
+          "orderId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "products": [
+            {
+              "cost": 0.12,
+              "quantity": 0,
+              "productId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+              "productName": "??????"
+            }
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.orderId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.total": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[0].productId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[0].cost": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[0].quantity": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[0].productName": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": ".*"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.orderId": {
+              "type": "Uuid"
+            },
+            "$[0].productId": {
+              "type": "Uuid"
+            },
+            "$[0].productName": {
+              "type": "Regex",
+              "regex": ".*"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "get single order"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.6"
+    }
+  }
+}
