@@ -10,7 +10,7 @@
       "description": "get one order",
       "request": {
         "method": "GET",
-        "path": "/orders/getOne/c055f5d6-7bf7-df64-4878-246a2a3a2334",
+        "path": "/orders/getOne/c8dff47d-2abf-b4fc-21fa-b4c73af5bfd2",
         "matchingRules": {
           "path": {
             "matchers": [
@@ -36,7 +36,7 @@
               "cost": 0.12,
               "quantity": 0,
               "productId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
-              "productName": "?"
+              "productName": "辍?斒?덫響ᄛந"
             }
           ]
         },

@@ -75,7 +75,6 @@ class ConsumerApplicationTests {
 	public void createAllFooPactTest(MockServer mockServer) throws IOException {
 		String url=mockServer.getUrl() + "/orders";
 		HttpResponse httpResponse = getResponse(url);
-		System.out.println(EntityUtils.toString(httpResponse.getEntity()));
 		assertEquals(httpResponse.getStatusLine().getStatusCode(),200);
 
 	}
