@@ -86,10 +86,11 @@
 					<!-- pact file generated directory-->
 					<pactDirectory>../pacts</pactDirectory>
 					<!-- for releases or environment -->
-					<tags>3</tags>
+					<tags>PROD</tags>
 					<skipPactPublish>false</skipPactPublish>
 					<!-- pact files version -->
 					<projectVersion>3</projectVersion>
+					<pacticipantVersion>3</pacticipantVersion>
 				</configuration>
 				<executions>
 					<execution>
@@ -97,6 +98,26 @@
 						<goals>
 							<goal>publish</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete
+										dir="../pact"
+										includeemptydirs="true"/>
+							</target>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

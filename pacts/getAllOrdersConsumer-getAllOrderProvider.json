@@ -1,9 +1,9 @@
 {
   "provider": {
-    "name": "get-all-orders-provider"
+    "name": "getAllOrderProvider"
   },
   "consumer": {
-    "name": "get-all-orders-consumer"
+    "name": "getAllOrdersConsumer"
   },
   "interactions": [
     {

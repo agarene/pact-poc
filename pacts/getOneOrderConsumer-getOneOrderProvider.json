@@ -1,16 +1,16 @@
 {
   "provider": {
-    "name": "get-one-order-provider"
+    "name": "getOneOrderProvider"
   },
   "consumer": {
-    "name": "get-one-order-consumer"
+    "name": "getOneOrderConsumer"
   },
   "interactions": [
     {
       "description": "get one order",
       "request": {
         "method": "GET",
-        "path": "/orders/getOne/9fbd600e-fa5c-effd-7d0c-9bd29ac02de8",
+        "path": "/orders/getOne/b983a5aa-5dea-27dc-87ba-5c9a5f5caad4",
         "matchingRules": {
           "path": {
             "matchers": [
@@ -36,7 +36,7 @@
               "cost": 0.12,
               "quantity": 0,
               "productId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
-              "productName": "??"
+              "productName": "??????"
             }
           ]
         },

@@ -18,7 +18,7 @@
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Greenwich.BUILD-SNAPSHOT</spring-cloud.version>
 		<spring-cloud-contract.version>2.2.4.RELEASE</spring-cloud-contract.version>
-		<pact-jvm-provider-maven-plugin.version>4.0.10</pact-jvm-provider-maven-plugin.version>
+		<pact-jvm-provider-maven-plugin.version>4.0.9</pact-jvm-provider-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -85,6 +85,13 @@
 			<type>pom</type>
 			<scope>import</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>3.3.0</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 </dependencyManagement>
 	<build>
@@ -94,12 +101,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<useSystemClassLoader>false</useSystemClassLoader>
-					<systemProperties>
-						<property>
-							<name>pact.verifier.publishResults</name>
-							<value>true</value>
-						</property>
-					</systemProperties>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -117,21 +118,25 @@
 					<!-- service providers which are in pact files-->
 					<serviceProviders>
 						<serviceProvider>
-							<name>get-all-orders-provider</name>
+							<name>ordersProvider</name>
 							<protocol>http</protocol>
 							<host>localhost</host>
 							<port>8081</port>
 						</serviceProvider>
 						<serviceProvider>
-							<name>get-one-order-provider</name>
+							<name>getAllOrderProvider</name>
 							<protocol>http</protocol>
 							<host>localhost</host>
 							<port>8081</port>
-							<stateChangeUsesBody>false</stateChangeUsesBody>
+						</serviceProvider>
+						<serviceProvider>
+							<name>getOneOrderProvider</name>
+							<protocol>http</protocol>
+							<host>localhost</host>
+							<port>8081</port>
 						</serviceProvider>
 					</serviceProviders>
-					<tags>3</tags>
-					<pacticipantVersion>3</pacticipantVersion>
+					<tags>QA</tags>
 					<projectVersion>1</projectVersion>
 					<configuration>
 							<pact.verifier.publishResults>true</pact.verifier.publishResults>
@@ -144,19 +149,41 @@
 				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
 				<extensions>true</extensions>
 				<version>2.2.4.RELEASE</version>
+
+
 				<configuration>
-					<!-- <contractDependency>
-						<groupId>com.evoke</groupId>
-						<artifactId>consumer</artifactId>
-						<version>+</version>
+					<contractsProperties>
+						<stubrunner.properties.pactbroker.tags>QA</stubrunner.properties.pactbroker.tags>
+						<pactbroker.provider-name-with-group-id>com.evoke.consumer</pactbroker.provider-name-with-group-id>
+					</contractsProperties>
+					 <contractDependency>
+						<groupId>com.evoke.provider</groupId>
+						<artifactId>ordersProvider</artifactId>
+						<version>PROD</version>
+						 <type>json</type>
 					</contractDependency>
-					<url>http://192.168.1.3:9000</url>
 					<contractsMode>REMOTE</contractsMode>
-					<contractsRepositoryUrl>pact://http://192.168.1.3:9000</contractsRepositoryUrl>-->
+					<contractsRepositoryUrl>pact://http://192.168.1.3:9000</contractsRepositoryUrl>
 					<testFramework>JUNIT5</testFramework>
+					<testMode>MOCKMVC</testMode>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework.cloud</groupId>
+						<artifactId>spring-cloud-contract-pact</artifactId>
+						<version>${spring-cloud-contract.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<phase>generate-test-sources</phase>
+					</execution>
+				</executions>
 			</plugin>
 
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>

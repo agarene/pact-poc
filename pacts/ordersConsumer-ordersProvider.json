@@ -1,0 +1,278 @@
+{
+  "provider": {
+    "name": "ordersProvider"
+  },
+  "consumer": {
+    "name": "ordersConsumer"
+  },
+  "interactions": [
+    {
+      "description": "get all orders",
+      "request": {
+        "method": "GET",
+        "path": "/orders"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "body": [
+          {
+            "total": 0.12,
+            "orderId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "products": [
+              {
+                "cost": 0.12,
+                "quantity": 0,
+                "productId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+                "productName": "???"
+              }
+            ]
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].orderId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].total": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].products": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].products[*].productId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].products[*].cost": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].products[*].quantity": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].products[*].productName": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": ".*"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[*].orderId": {
+              "type": "Uuid"
+            },
+            "$[*].products[*].productId": {
+              "type": "Uuid"
+            },
+            "$[*].products[*].productName": {
+              "type": "Regex",
+              "regex": ".*"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "get all orders"
+        }
+      ]
+    },
+    {
+      "description": "get one order",
+      "request": {
+        "method": "GET",
+        "path": "/orders/getOne/fdebe5f6-94b0-6fb8-8f8c-efa8a8f2f7fe",
+        "matchingRules": {
+          "path": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "/orders/getOne/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+              }
+            ],
+            "combine": "AND"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "body": {
+          "total": 0.12,
+          "orderId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "products": [
+            {
+              "cost": 0.12,
+              "quantity": 0,
+              "productId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+              "productName": "?"
+            }
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.orderId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.total": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[*].productId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[*].cost": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[*].quantity": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.products[*].productName": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": ".*"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.orderId": {
+              "type": "Uuid"
+            },
+            "$.products[*].productId": {
+              "type": "Uuid"
+            },
+            "$.products[*].productName": {
+              "type": "Regex",
+              "regex": ".*"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "get single order"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.6"
+    }
+  }
+}

@@ -11,7 +11,6 @@ import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
-import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,12 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonArray;
 import static org.junit.Assert.assertEquals;
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -38,7 +35,7 @@ class ConsumerApplicationTests {
 
 
 
-	@Pact(provider = "get-all-orders-provider" ,consumer = "get-all-orders-consumer")
+	@Pact(provider = "getAllOrderProvider" ,consumer = "getAllOrdersConsumer")
 	public RequestResponsePact getAllOrders(PactDslWithProvider builder){
 		Map<String,String> headers=new HashMap<>();
 		DslPart dslPart = PactDslJsonArray.arrayMinLike(1).uuid("orderId").decimalType("total", 0.12)
@@ -51,7 +48,7 @@ class ConsumerApplicationTests {
 						body(dslPart).toPact();
 	}
 
-	@Pact(provider = "get-one-order-provider" ,consumer = "get-one-order-consumer")
+	@Pact(provider = "getOneOrderProvider" ,consumer = "getOneOrderConsumer")
 	public RequestResponsePact getOrder(PactDslWithProvider builder){
 		Map<String,String> headers=new HashMap<>();
 		DslPart body = new PactDslJsonBody().uuid("orderId").decimalType("total", 0.12)
