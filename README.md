@@ -1,10 +1,9 @@
-# Packt files generattion poc
-    - provider
-    - consumer
-    - docker files
-
+# Pact Poc
+# prerequisites
+- JDK > 1.8
+- Docker
+- Postgres
 # Steps to run app
-  - run docker compose
-  - configure pact broker urls.
-  - run mvnw test install, it will generates pact files and publish these into pact broker,we can see this in pack broker after successful.
- - go to provider run mvn pact:verify, will verify the pact files.
+  - pact broker must up and run,to run pact broker run **docker-compose -f docker-files/docker-compose.yml**
+  - go to consumer app and run **mvnw test install**, it will generates pact files and publish to pact broker,[we can see this in pack broker after successful](http://localhost:9000).
+  - go to provider app and run **mvnw test pactVerify**.

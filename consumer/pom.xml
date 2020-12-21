@@ -82,7 +82,7 @@
 				<version>4.1.0</version>
 				<configuration>
 					<!-- pack broker installed url-->
-					<pactBrokerUrl>http://192.168.1.3:9000</pactBrokerUrl>
+					<pactBrokerUrl>http://localhost:9000</pactBrokerUrl>
 					<!-- pact file generated directory-->
 					<pactDirectory>../pacts</pactDirectory>
 					<!-- for releases or environment -->
